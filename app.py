@@ -11,9 +11,9 @@ st.markdown("Enter the lead details below to predict the admission probability."
 
 # Input form
 activity_score = st.number_input("Activity Score", min_value=0.0)
-no_of_calls = st.number_input("Number of Calls", min_value=0.0)
-answered_calls = st.number_input("Answered Calls", min_value=0.0)
-age = st.number_input("Age", min_value=0.0)
+no_of_calls = st.number_input("Number of Calls", min_value=0)
+answered_calls = st.number_input("Answered Calls", min_value=0)
+age = st.number_input("Age", min_value=18)
 primary_source_attempt = st.number_input("Primary Source Attempt", min_value=0)
 secondary_source_attempt = st.number_input("Secondary Source Attempt", min_value=0)
 tertiary_source_attempt = st.number_input("Tertiary Source Attempt", min_value=0)
