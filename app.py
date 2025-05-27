@@ -22,10 +22,10 @@ lead_source = st.selectbox("Lead Source", ['organic', 'Referral', 'Paid Leads'])
 source_medium = st.selectbox("Source Medium", ["admissions", "bba", "Brand-Video-Ad", "Corporate", "cpc", "direct", "firstvite", "Google_Demand_Gen", "Google_Per_Max", "Google_Search", "Herbalife", "iim", "incoming call", "inlinesolutions", "Interest", "JyotikaRajatYoutube", "kpmg", "lookalike Audience", "lookalike1", "lookalike2", "lookalike3", "lookalike3 – Copy", "lookalike4", "MBA Remarketing Ads", "mindstory", "namita_gandotra", "npf", "online degree", "paid", "Panku-Kumar-Video-Ad", "Performance_MAx", "personal refferal", "premchand", "reffral", "student Rederral", "Student Reference", "Student Referral", "student referrel", "study", "Super lookalike", "surender vats", "surender_vats", "WHATTS", "whatts app", "yes help me"])
 timing_of_lead = st.selectbox("Timing of Lead", ['Early in Cycle', 'Mid in Cycle', 'Late in Cycle'])
 gender = st.selectbox("Gender", ['Male', 'Female', 'Unknown'])
-course_interested = st.selectbox("Course Interested", ['MBA Online', 'BBA Online', 'BCA Online', 'MCA Online'])
+course_interested = st.selectbox("Course Interested", ['MBA Online', 'BBA Online', 'BCA Online', 'MCA Online','MA ( ENGLISH LITERATURE ) Online','BCOM(Hons) Online'])
 payment_options = st.selectbox("Payment Options", ['Pay After Placement', 'Opt-Out of Pay After Placement', 'Direct Selling', 'Unknown'])
-secondary_source = st.selectbox("Secondary Source", ['organic', 'Referral', 'Paid Leads', 'Channel'])
-tertiary_source = st.selectbox("Tertiary Source", ['organic', 'Referral', 'Paid Leads', 'Channel', 'Inbound Phone Call'])
+secondary_source = st.selectbox("Secondary Source", ['organic', 'Referral', 'Paid Leads', 'Channel','Unknown'])
+tertiary_source = st.selectbox("Tertiary Source", ['organic', 'Referral', 'Paid Leads', 'Channel', 'Inbound Phone Call','Unknown'])
 present_area = st.selectbox("Present Area", ['Urban', 'Rural'])
 
 # Make prediction
