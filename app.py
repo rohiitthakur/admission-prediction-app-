@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load the trained pipeline
-clf = joblib.load("clf_model.pkl")  # Ensure this file exists in the same folder
+clf = joblib.load("RandomForest_model.pkl")  # Ensure this file exists in the same folder
 
 # Streamlit App UI
 st.title("🎓 Lead Admission Prediction App")
