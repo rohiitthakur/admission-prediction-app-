@@ -3,13 +3,24 @@ import pandas as pd
 import joblib
 
 # Load the trained pipeline
-clf = joblib.load("clf_model.pkl")  # Ensure this file is present in the same directory
+clf = joblib.load("clf_model.pkl")  # Ensure this file exists in the same folder
 
-# Title
-st.title("Lead Admission Prediction App")
-st.markdown("Enter the lead details below to predict the admission probability.")
+# Streamlit App UI
+st.title("🎓 Lead Admission Prediction App")
+st.markdown("Fill in the lead details below to estimate the **probability of taking admission**.")
 
-# Input form
+# --- Numeric Inputs ---
+app_completion_pct = st.slider("Application Completion %", 0.0, 100.0, 75.0)
+no_of_calls = st.number_input("Number of Calls", min_value=0, value=1)
+answered_calls = st.number_input("Answered Calls", min_value=0, value=1)
+lead_score = st.number_input("Lead Score", min_value=0.0, value=65.0)
+engagement_score = st.number_input("Engagement Score", min_value=0.0, value=50.0)
+age = st.number_input("Age", min_value=18, max_value=60, value=22)
+primary_source_attempt = st.number_input("Primary Source Attempt", min_value=0, value=1)
+secondary_source_attempt = st.number_input("Secondary Source Attempt", min_value=0, value=1)
+tertiary_source_attempt = st.number_input("Tertiary Source Attempt", min_value=0, value=1)
+
+# --- Categorical Inputs ---
 last_notable_activity = st.selectbox("Last Notable Activity", [
     "Call Disposition", "Dynamic Form Submission", "Email Bounced", "Email Link Clicked",
     "Email Opened", "Email Sent", "Facebook Lead Ads Submissions", "Form submitted on Portal",
@@ -20,16 +31,8 @@ last_notable_activity = st.selectbox("Last Notable Activity", [
     "Unsubscribed", "WhatsApp Message"
 ])
 
-no_of_calls = st.number_input("Number of Calls", min_value=0)
-answered_calls = st.number_input("Answered Calls", min_value=0)
-age = st.number_input("Age", min_value=18)
-primary_source_attempt = st.number_input("Primary Source Attempt", min_value=0)
-secondary_source_attempt = st.number_input("Secondary Source Attempt", min_value=0)
-tertiary_source_attempt = st.number_input("Tertiary Source Attempt", min_value=0)
-
 lead_source = st.selectbox("Lead Source", ['organic', 'Referral', 'Paid Leads'])
 
-# ✅ New Source Medium values
 source_medium = st.selectbox("Source Medium", [
     "admissions", "Buddy Referral", "ChatBot/Whatsapp", "DS",
     "Google_Demand_Gen", "Google_Per_Max", "Google_Search", "Incoming Call",
@@ -39,40 +42,44 @@ source_medium = st.selectbox("Source Medium", [
 
 timing_of_lead = st.selectbox("Timing of Lead", ['Early in Cycle', 'Mid in Cycle', 'Late in Cycle'])
 gender = st.selectbox("Gender", ['Male', 'Female'])
+
 course_interested = st.selectbox("Course Interested", [
-    'MBA Online', 'BBA Online', 'BCA Online', 'MCA Online', 
+    'MBA Online', 'BBA Online', 'BCA Online', 'MCA Online',
     'MA ( ENGLISH LITERATURE ) Online', 'BCOM(Hons) Online'
 ])
 
-secondary_source = st.selectbox("Secondary Source", [
-    'organic', 'Referral', 'Paid Leads', 'Channel', 'Unknown'
-])
-
+secondary_source = st.selectbox("Secondary Source", ['organic', 'Referral', 'Paid Leads', 'Channel', 'Unknown'])
 present_area = st.selectbox("Present Area", ['Urban', 'Rural'])
+notes_sentiments = st.selectbox("Notes Sentiments", ['positive', 'negative', 'neutral'])
 
-
-# Make prediction
+# --- Predict Button ---
 if st.button("Predict Admission Probability"):
     input_data = pd.DataFrame([{
-        "last notable activity": last_notable_activity,
+        "application completion percentage": app_completion_pct,
         "no. of calls": no_of_calls,
         "answered calls": answered_calls,
+        "lead score": lead_score,
+        "engagement score": engagement_score,
         "age": age,
         "primary source attempt": primary_source_attempt,
         "secondary source attempt": secondary_source_attempt,
         "tertiary source attempt": tertiary_source_attempt,
+        "last notable activity": last_notable_activity,
         "lead source": lead_source,
         "source medium": source_medium,
         "timing of lead": timing_of_lead,
         "gender": gender,
         "course interested": course_interested,
-        "payment options": payment_options,
         "secondary source": secondary_source,
-        "tertiary source": tertiary_source,
-        "present area": present_area
+        "present area": present_area,
+        "notes_sentiments": notes_sentiments
     }])
 
-    st.write("Model input preview:", input_data)
+    try:
+        prob = clf.predict_proba(input_data)[0][1]
+        st.success(f"📊 Predicted probability of taking admission: **{prob:.2%}**")
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
 
     try:
         prob = clf.predict_proba(input_data)[0][1]
