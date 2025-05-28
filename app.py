@@ -3,14 +3,23 @@ import pandas as pd
 import joblib
 
 # Load the trained pipeline
-clf = joblib.load("clf_model.pkl")  # Make sure this file is present in the same directory
+clf = joblib.load("clf_model1.pkl")  # Ensure this file is present in the same directory
 
 # Title
 st.title("Lead Admission Prediction App")
 st.markdown("Enter the lead details below to predict the admission probability.")
 
 # Input form
-activity_score = st.number_input("Activity Score", min_value=0.0)
+last_notable_activity = st.selectbox("Last Notable Activity", [
+    "Call Disposition", "Dynamic Form Submission", "Email Bounced", "Email Link Clicked",
+    "Email Opened", "Email Sent", "Facebook Lead Ads Submissions", "Form submitted on Portal",
+    "Inbound Phone Call Activity", "Lead Capture", "Lead Enquiry", "Logged into Portal",
+    "Logged out of Portal", "Mailing preference link clicked", "Modified",
+    "Outbound Phone Call Activity", "Page Visited on Website", "Payment",
+    "Re-registration Attempt Detected", "Resubscribed", "Smart Link Accessed",
+    "Unsubscribed", "WhatsApp Message"
+])
+
 no_of_calls = st.number_input("Number of Calls", min_value=0)
 answered_calls = st.number_input("Answered Calls", min_value=0)
 age = st.number_input("Age", min_value=18)
@@ -19,19 +28,33 @@ secondary_source_attempt = st.number_input("Secondary Source Attempt", min_value
 tertiary_source_attempt = st.number_input("Tertiary Source Attempt", min_value=0)
 
 lead_source = st.selectbox("Lead Source", ['organic', 'Referral', 'Paid Leads'])
-source_medium = st.selectbox("Source Medium", ["admissions", "bba", "Brand-Video-Ad", "Corporate", "cpc", "direct", "firstvite", "Google_Demand_Gen", "Google_Per_Max", "Google_Search", "Herbalife", "iim", "incoming call", "inlinesolutions", "Interest", "JyotikaRajatYoutube", "kpmg", "lookalike Audience", "lookalike1", "lookalike2", "lookalike3", "lookalike3 – Copy", "lookalike4", "MBA Remarketing Ads", "mindstory", "namita_gandotra", "npf", "online degree", "paid", "Panku-Kumar-Video-Ad", "Performance_MAx", "personal refferal", "premchand", "reffral", "student Rederral", "Student Reference", "Student Referral", "student referrel", "study", "Super lookalike", "surender vats", "surender_vats", "WHATTS", "whatts app", "yes help me"])
+
+# ✅ New Source Medium values
+source_medium = st.selectbox("Source Medium", [
+    "admissions", "Buddy Referral", "ChatBot/Whatsapp", "DS",
+    "Google_Demand_Gen", "Google_Per_Max", "Google_Search", "Incoming Call",
+    "lookalike/ MBA Remarketing Ads", "namita_gandhotra", "Personal Referrals",
+    "Shoolini Offline", "Shoolini Referral"
+])
+
 timing_of_lead = st.selectbox("Timing of Lead", ['Early in Cycle', 'Mid in Cycle', 'Late in Cycle'])
-gender = st.selectbox("Gender", ['Male', 'Female', 'Unknown'])
-course_interested = st.selectbox("Course Interested", ['MBA Online', 'BBA Online', 'BCA Online', 'MCA Online','MA ( ENGLISH LITERATURE ) Online','BCOM(Hons) Online'])
-payment_options = st.selectbox("Payment Options", ['Pay After Placement', 'Opt-Out of Pay After Placement', 'Direct Selling', 'Unknown'])
-secondary_source = st.selectbox("Secondary Source", ['organic', 'Referral', 'Paid Leads', 'Channel','Unknown'])
-tertiary_source = st.selectbox("Tertiary Source", ['organic', 'Referral', 'Paid Leads', 'Channel', 'Inbound Phone Call','Unknown'])
+gender = st.selectbox("Gender", ['Male', 'Female'])
+course_interested = st.selectbox("Course Interested", [
+    'MBA Online', 'BBA Online', 'BCA Online', 'MCA Online', 
+    'MA ( ENGLISH LITERATURE ) Online', 'BCOM(Hons) Online'
+])
+
+secondary_source = st.selectbox("Secondary Source", [
+    'organic', 'Referral', 'Paid Leads', 'Channel', 'Unknown'
+])
+
 present_area = st.selectbox("Present Area", ['Urban', 'Rural'])
+
 
 # Make prediction
 if st.button("Predict Admission Probability"):
     input_data = pd.DataFrame([{
-        "activity score": activity_score,
+        "last notable activity": last_notable_activity,
         "no. of calls": no_of_calls,
         "answered calls": answered_calls,
         "age": age,
