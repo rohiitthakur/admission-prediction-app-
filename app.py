@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load the trained pipeline
-clf = joblib.load("clf_model1.pkl")  # Ensure this file is present in the same directory
+clf = joblib.load("clf_model.pkl")  # Ensure this file is present in the same directory
 
 # Title
 st.title("Lead Admission Prediction App")
